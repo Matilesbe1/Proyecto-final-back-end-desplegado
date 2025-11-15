@@ -1,7 +1,7 @@
 import ENVIRONMENT from "../config/environment.config.js"
 import mailTransporter from "../config/mailTransporter.config.js"
 import { ServerError } from "../error.js"
-import Workspace from "../models/workspace.model.js"
+import Workspace from "../models/Workspace.model.js"
 import MemberWorkspaceRepository from "../repositories/memberWorkspace.repository.js"
 import UserRepository from "../repositories/user.repository.js"
 import WorkspaceRepository from "../repositories/workspace.repository.js"
