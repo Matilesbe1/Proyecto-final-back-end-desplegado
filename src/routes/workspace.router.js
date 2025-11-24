@@ -32,6 +32,13 @@ workspaceRouter.post(
     WorkspaceController.create
 )
 
+workspaceRouter.post(
+    '/createChannel',
+    authMiddleware,
+    workspaceMiddleware(),
+    ChannelController.create
+)
+
 // POST /workspaces/:workspace_id/channels (Solo admins)
 /* 
 body: {
@@ -51,7 +58,7 @@ workspaceRouter.get(
     '/:workspace_id/channels',
     authMiddleware,
     workspaceMiddleware(),
-    WorkspaceController.getById
+    ChannelController.getById
 )
 
 workspaceRouter.post(

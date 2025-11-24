@@ -114,14 +114,15 @@ class WorkspaceController {
     static async getById(request, response) {
         try {
             const {workspace_selected, member, user} = request
-            const workspaces = await ChannelService.getAllByWorkspaceId(workspace_selected.id)
+            /* const workspaces = await ChannelService.getAllByWorkspaceId(workspace_selected.id) */
+            const workspace = await WorkspaceService.getById(workspace_selected.id). 
             response.status(200).json(
                 {
                     ok: true,
                     status: 200,
                     message: 'espacios de trabajdo encontrados',
                     data: {
-                        workspaces: workspaces
+                        workspace: workspace
                     }
                 }
             )

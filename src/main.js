@@ -7,7 +7,7 @@ import cors from 'cors'
 import memberRouter from "./routes/member.router.js";
 import MessagesChannelRepository from "./repositories/messageChannel.repository.js";
 import ChannelRepository from "./repositories/channel.repository.js";
-import {checkConnection} from "./config/configMysql.config.js";
+import { checkConnection } from "./config/configMysql.config.js";
 import UserRepository from "./repositories/user.repository.js";
 
 connectToMongoDB()
@@ -16,7 +16,6 @@ const app = express()
 
 //Configuro a mi API como API publica, cualquier dominio puede hacer peticiones
 app.use(cors())
-
 
 app.use(express.json())
 

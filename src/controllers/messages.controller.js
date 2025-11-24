@@ -1,3 +1,5 @@
+import MessageService from "../services/messages.service.js";
+
 class MessagesController {
     static async getAllByChannelId(request, response) {
         try {
@@ -11,6 +13,7 @@ class MessagesController {
                     messages: messages
                 },
             });
+            
         }
         catch (error) {
             if (error.status) {
@@ -36,10 +39,13 @@ class MessagesController {
     static async create(request, response) {
         try {
             const { channel_selected, member, user } = request
-            const { content } = request.body
+            const { content, id } = request.body
+            console.log(content, id);
+            console.log(user);
+            
             //Crear un mensaje
             //(Para la clase que viene) Obtener la lista de mensajes y responder
-            const { messages, message_created } = await MessageService.create(content, member._id, channel_selected._id)
+            const { messages, message_created } = await MessageService.create(content, user.id, channel_selected._id)
             return response.status(201).json({
                 ok: true,
                 status: 201,

@@ -1,3 +1,4 @@
+import { response } from "express";
 import ChannelService from "../services/channel.service.js";
 
 
@@ -15,13 +16,13 @@ class ChannelController {
                 });
             }
             // Crear el canal usando .createChannel
-            const channel_list = await ChannelService.create(workspace_selected.id, name);
+            const channel_created = await ChannelService.create(workspace_selected.id, name);
             response.status(201).json({
                 ok: true,
                 message: 'Canal creado',
                 status: 201,
                 data: {
-                    channels: channel_list
+                    channels: channel_created
                 }
             });
         } catch (error) {
@@ -31,6 +32,20 @@ class ChannelController {
                 message: 'Error interno del servidor',
             });
         }
+    }
+    static async getById(request, response ){
+        const {workspace_selected, member, user} = request
+        const channels = await ChannelService.getAllByWorkspaceId(workspace_selected.id) 
+        response.status(200).json(
+            {
+                ok: true,
+                status: 200,
+                message: 'canales encontrados',
+                data: {
+                    channels: channels
+                }
+            }
+        )
     }
 }
 

@@ -59,27 +59,60 @@ class MessagesChannelRepository {
     }
 
     static async getAllByChannelId(channel_id) {
-        const messages = await MessageChannel.find({ channel_id: channel_id })
+        try {
+        const messages = await MessageChannel.find({ channel_id })
             .populate({
-                path:'sender_member_id',
-                populate:{
-                    path:'id_user',
-                    model:'User',
-                    select:'name _id'
+                path: 'sender_member_id',
+                populate: {
+                    path: 'id_user',
+                    model: 'User',
+                    select: 'name _id'
                 }
             })
 
-            const messages_formatted= messages.map(
-                (message)=>{
-                    return{
+        const messages_formatted = messages
+            .filter(m => m.sender_member_id && m.sender_member_id.id_user)
+            .map(message => ({
+                _id: message._id,
+                content: message.content,
+                user: {
+                    _id: message.sender_member_id.id_user._id,
+                    name: message.sender_member_id.id_user.name
+                },
+                createdAt: message.createdAt
+            }))
+
+        return messages_formatted
+    }
+    catch (error) {
+        console.error('[SERVER ERROR]: no se pudo obtener la mensajeria por canal', error);
+        throw error
+    }
+}
+    }
+
+export default MessagesChannelRepository
+
+/* 
+ const messages = await MessageChannel.find({ channel_id: channel_id })
+            .populate({
+                path: 'sender_member_id',
+                populate: {
+                    path: 'id_user',
+                    model: 'User',
+                    select: 'name _id'
+                }
+            })
+
+        const messages_formatted = messages.map(
+            (message) => {
+                return{
                         _id: message._id,
                         message_content: message.content,
                         member_id: message.sender_member_id._id,
                         user_name:message.sender_member_id.id_user.name
                     }
-                }
-            )
-            .populate('sender_member_id.id_user')
-    }
-}
-export default MessagesChannelRepository
+            }
+        )
+        return messages_formatted
+*/
